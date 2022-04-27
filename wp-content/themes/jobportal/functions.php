@@ -222,4 +222,31 @@ function create_candidate_posttype() {
 	register_post_type('candidate-list', $args);
 }
 add_action('init', 'create_candidate_posttype');
+
+// Custom Post type For Future Job
+function future_job_posttype() {
+	$labels = array(
+		'name' => _x('Future Job', 'Post type name'),
+		'singular_name' => _x('future', 'Singular name'),
+		'edit_item'          => __( 'Edit list' ),
+		'all_items'          => __( 'All jobs' ),
+		'public' => true,
+        	'has_archive' => true,
+		'menu_name' => 'Future Job',	
+	
+	);
+		
+	$args = array(
+	'labels' => $labels,
+		'public' => true,
+      	'has_archive' => true,
+      	'show_ui' => true,
+	'description' => 'This is for Future job',
+    'menu_icon'   => 'dashicons-admin-users'
+	
+	);
+	
+	register_post_type('future', $args);
+}
+add_action('init', 'future_job_posttype');
 ?>

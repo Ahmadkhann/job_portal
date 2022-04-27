@@ -37,14 +37,13 @@
                <div class="col-md-12 col-lg-12 mx-auto">
                   <div class="job-grid-right">
                     <?php 
-                    $args = array(
-                        'post_status' => 'publish',
-                        'post_type' => 'job-listing',
+                  //   $args = array(
+                  //       'post_type' => 'job-listing',
 
-                    );
-                    $query = new WP_Query($args);
-                    if($query->have_posts()) {
-                        while($query->have_posts()) : the_post();
+                  //   );
+                  //   $query = new WP_Query($args);
+                  //   if($query->have_posts()) {
+                        while(have_posts()) : the_post();
                         ?>
                        <div class="sidebar-list-single">
                            <div class="top-company-list">
@@ -63,7 +62,6 @@
 
                     <?php
                     endwhile;
-                    }
                     ?>
 
                      <!-- end job sidebar list -->

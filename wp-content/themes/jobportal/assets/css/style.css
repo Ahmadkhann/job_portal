@@ -5589,3 +5589,126 @@ ul.company-desc-list li i {
 	margin-bottom: 0
 }
 
+@import url('https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900&amp;display=swap');
+
+.jobTypeList{
+	display: flex;
+	margin-right: 10px;
+}
+
+ ul.subject-list{
+   display: flex;
+   flex-wrap: wrap;
+}
+ul.subject-list li{
+   width: 50%;
+}
+
+.high-school-subjects,
+.college-subjects{
+   border-top: 1px solid rgba(0,0,0,0.2);
+   border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+
+.college-subjects{
+   display: none;
+}
+.high-school-subjects{
+   display: none;
+}
+
+
+body{
+  font-family: 'Poppins', sans-serif;
+}
+.cbx {
+  margin: auto;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: pointer;
+}
+.cbx span {
+  display: inline-block;
+  vertical-align: middle;
+  transform: translate3d(0, 0, 0);
+}
+.cbx span:first-child {
+  position: relative;
+  width: 22px;
+  height: 18px;
+  top: 3px;
+  border-radius: 3px;
+  transform: scale(1);
+  vertical-align: middle;
+  border: 1px solid #9098A9;
+  transition: all 0.2s ease;
+}
+.cbx span:last-child{
+  width: 100%;
+}
+.cbx span:first-child svg {
+  position: absolute;
+  top: 3px;
+  left: 2px;
+  fill: none;
+  stroke: #FFFFFF;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 16px;
+  stroke-dashoffset: 16px;
+  transition: all 0.3s ease;
+  transition-delay: 0.1s;
+  transform: translate3d(0, 0, 0);
+}
+.cbx span:first-child:before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  background: #09497A;
+  display: block;
+  transform: scale(0);
+  opacity: 1;
+  border-radius: 50%;
+}
+.cbx span:last-child {
+  padding-left: 8px;
+}
+.cbx:hover span:first-child {
+  border-color: #09497A;
+}
+
+.inp-cbx:checked + .cbx span:first-child {
+  background: #09497A;
+  border-color: #09497A;
+  animation: wave 0.4s ease;
+}
+.inp-cbx:checked + .cbx span:last-child {
+  color: #09497A;
+}
+.inp-cbx:checked + .cbx span:first-child svg {
+  stroke-dashoffset: 0;
+}
+.inp-cbx:checked + .cbx span:first-child:before {
+  transform: scale(2.5);
+  opacity: 0;
+  transition: all 0.6s ease;
+}
+
+@keyframes wave {
+  50% {
+    transform: scale(1);
+  }
+}
+
+
+.checkbox__wrapper input{
+  display: none;
+}
+.cbx__main_label{
+  display: flex;
+  justify-content: flex-start;
+}
+.box{
+        display: none;
+    }
