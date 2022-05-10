@@ -76,7 +76,7 @@
             <div class="row">
                <div class="col-md-12">
                   <div class="load-more">
-                     <a href="all-jobs.html" class="jobguru-btn">browse all categories</a>
+                  <a href="<?php echo site_url('all-jobs'); ?>" class="jobguru-btn">browse all categories</a>
                   </div>
                </div>
             </div>
