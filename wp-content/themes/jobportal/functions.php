@@ -249,4 +249,59 @@ function future_job_posttype() {
 	register_post_type('future', $args);
 }
 add_action('init', 'future_job_posttype');
+
+function more_post_ajax() {
+    $term_id = (isset($_POST["id"])) ? $_POST["id"] : '';
+    $args = array(
+       'post_type' => 'job-listing',
+       'post_status' => 'publish',
+       'tax_query' => array(
+            array(
+                'taxonomy' => 'job_category',
+                'field' => 'term_id',
+                'terms' => $term_id,
+            )
+        )
+    );
+
+    $query = new WP_Query($args);
+    // echo "<pre>"; print_r($query);
+    // exit('df');
+    if($query->have_posts()):
+       while($query->have_posts()):
+          $query->the_post();
+       
+          ?>
+                   <div class="sidebar-list-single">
+                       <div class="top-company-list">
+                           <div class="company-list-details">
+                               <h3><a href="<?php the_permalink(); ?>"><?php the_title();  ?></a></h3>
+                               <p class="company-state"><a href="#"><i
+                                           class="fa fa-map-marker"></i><?php echo get_field('field_6278e13325db3'); ?></a>
+                               </p>
+                               <p class="open-icon"><i
+                                       class="fa fa-briefcase"></i><?php echo get_field('field_6278e34dc145a'); ?>
+                               </p>
+                               <p class="varify"><i
+                                       class="fa fa-user"></i><?php echo get_field('field_6278e76a8c437'); ?></p>
+                               <p class="calendar"><i class="fa fa-calendar"></i>Posted
+                                   Date:<?php echo get_field('field_6278e7278c435'); ?></p>
+                               <p class="calendar"><i class="fa fa-calendar"></i>Expiry Date:
+                                   <?php echo get_field('field_6278e7528c436'); ?></p>
+                           </div>
+                           <div class="company-list-btn">
+                               <a href="<?php the_permalink(); ?>" class="jobguru-btn">View Details</a>
+                           </div>
+                       </div>
+                   </div>
+
+                   <?php 
+    endwhile;
+    endif; 
+
+}
+
+add_action('wp_ajax_nopriv_more_post_ajax', 'more_post_ajax');
+add_action('wp_ajax_more_post_ajax', 'more_post_ajax');
+
 ?>
