@@ -250,6 +250,33 @@ function future_job_posttype() {
 }
 add_action('init', 'future_job_posttype');
 
+// Custom Post type For Future Job
+function future_job_Candidate_list() {
+	$labels = array(
+		'name' => _x('Future Job Candidate', 'Post type name'),
+		'singular_name' => _x('future_job_candidate', 'Singular name'),
+		'edit_item'          => __( 'Edit list' ),
+		'all_items'          => __( 'All Future jobs' ),
+		'public' => true,
+        'has_archive' => true,
+		'menu_name' => 'Future Job Candidate',	
+	
+	);
+		
+	$args = array(
+	'labels' => $labels,
+		'public' => true,
+      	'has_archive' => true,
+      	'show_ui' => true,
+	'description' => 'This is for Future job',
+    'menu_icon'   => 'dashicons-admin-users'
+	
+	);
+	
+	register_post_type('future_job_candidate', $args);
+}
+add_action('init', 'future_job_Candidate_list');
+
 function more_post_ajax() {
     $term_id = (isset($_POST["id"])) ? $_POST["id"] : '';
     $args = array(
@@ -284,6 +311,8 @@ function more_post_ajax() {
                                </p>
                                <p class="varify"><i
                                        class="fa fa-user"></i><?php echo get_field('field_6278e76a8c437'); ?></p>
+                                       <p class="varify"><i
+                                       class="fa fa-user"></i><?php echo get_field('job_type'); ?></p>
                                <p class="calendar"><i class="fa fa-calendar"></i>Posted
                                    Date:<?php echo get_field('field_6278e7278c435'); ?></p>
                                <p class="calendar"><i class="fa fa-calendar"></i>Expiry Date:
@@ -304,4 +333,120 @@ function more_post_ajax() {
 add_action('wp_ajax_nopriv_more_post_ajax', 'more_post_ajax');
 add_action('wp_ajax_more_post_ajax', 'more_post_ajax');
 
+
+
+function by_gender_ajax() {
+    $gender = (isset($_POST["genderId"])) ? $_POST["genderId"] : '';
+    //echo "<pre>"; print_r($gender);
+
+    $args = array(
+        'post_type' => 'job-listing',
+        'post_status' => 'publish',
+         'meta_query'	=> array(
+             array(
+                'key'	=> 'required_gender',
+                'value'	=> $gender,
+                'compare' 	=> '=',
+             )
+             ),
+     );
+
+    $query = new WP_Query($args);
+        // echo "<pre>"; print_r($query);
+        // exit('df');
+    if($query->have_posts()):
+       while($query->have_posts()):
+          $query->the_post();
+       
+          ?>
+                   <div class="sidebar-list-single">
+                       <div class="top-company-list">
+                           <div class="company-list-details">
+                               <h3><a href="<?php the_permalink(); ?>"><?php the_title();  ?></a></h3>
+                               <p class="company-state"><a href="#"><i
+                                           class="fa fa-map-marker"></i><?php echo get_field('location'); ?></a>
+                               </p>
+                               <p class="open-icon"><i
+                                       class="fa fa-briefcase"></i><?php echo get_field('vacant_position'); ?>
+                               </p>
+                               <p class="varify"><i
+                                       class="fa fa-user"></i><?php echo get_field('required_gender'); ?></p>
+                                       <p class="varify"><i
+                                       class="fa fa-user"></i><?php echo get_field('job_type'); ?></p>
+                               <p class="calendar"><i class="fa fa-calendar"></i>Posted
+                                   Date:<?php echo get_field('field_6278e7278c435'); ?></p>
+                               <p class="calendar"><i class="fa fa-calendar"></i>Expiry Date:
+                                   <?php echo get_field('field_6278e7528c436'); ?></p>
+                           </div>
+                           <div class="company-list-btn">
+                               <a href="<?php the_permalink(); ?>" class="jobguru-btn">View Details</a>
+                           </div>
+                       </div>
+                   </div>
+
+                   <?php 
+    endwhile;
+    endif; 
+
+}
+
+add_action('wp_ajax_nopriv_by_gender_ajax', 'by_gender_ajax');
+add_action('wp_ajax_by_gender_ajax', 'by_gender_ajax');
+
+function by_job_type_ajax() {
+    $job_type = (isset($_POST["jobType"])) ? $_POST["jobType"] : '';
+    //echo "<pre>"; print_r($gender);
+
+    $args = array(
+        'post_type' => 'job-listing',
+        'post_status' => 'publish',
+         'meta_query'	=> array(
+             array(
+                'key'	=> 'job_type',
+                'value'	=> $job_type,
+                'compare' 	=> 'LIKE',
+             )
+             ),
+     );
+    $query = new WP_Query($args);
+        // echo "<pre>"; print_r($query);
+        // exit('df');
+    if($query->have_posts()):
+       while($query->have_posts()):
+          $query->the_post();
+       
+          ?>
+                   <div class="sidebar-list-single">
+                       <div class="top-company-list">
+                           <div class="company-list-details">
+                               <h3><a href="<?php the_permalink(); ?>"><?php the_title();  ?></a></h3>
+                               <p class="company-state"><a href="#"><i
+                                           class="fa fa-map-marker"></i><?php echo get_field('location'); ?></a>
+                               </p>
+                               <p class="open-icon"><i
+                                       class="fa fa-briefcase"></i><?php echo get_field('vacant_position'); ?>
+                               </p>
+                               <p class="varify"><i
+                                       class="fa fa-user"></i><?php echo get_field('required_gender'); ?></p>
+                                       <p class="varify"><i
+                                       class="fa fa-user"></i><?php echo get_field('job_type'); ?></p>
+                               <p class="calendar"><i class="fa fa-calendar"></i>Posted
+                                   Date:<?php echo get_field('field_6278e7278c435'); ?></p>
+                               <p class="calendar"><i class="fa fa-calendar"></i>Expiry Date:
+                                   <?php echo get_field('field_6278e7528c436'); ?></p>
+                           </div>
+                           <div class="company-list-btn">
+                               <a href="<?php the_permalink(); ?>" class="jobguru-btn">View Details</a>
+                           </div>
+                       </div>
+                   </div>
+
+                   <?php 
+    endwhile;
+    endif; 
+
+}
+
+add_action('wp_ajax_nopriv_by_job_type_ajax', 'by_job_type_ajax');
+add_action('wp_ajax_by_job_type_ajax', 'by_job_type_ajax');
 ?>

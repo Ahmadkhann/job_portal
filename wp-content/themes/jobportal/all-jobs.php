@@ -73,19 +73,19 @@ get_header();
                     </div>
                     <div class="single-job-sidebar sidebar-location">
                         <h3>Gender</h3>
-                        <div class="date-post-job job-sidebar-box" id="job-type-gender">
+                        <div class="date-post-job job-sidebar-box">
                             <div class="form-group form-radio">
-                                <input id="male" value="Male" name="job_type_gender" type="radio">
+                                <input id="male" value="Male" class="gender" name="job_type_gender" type="radio">
                                 <label for="male" class="inline control-label">
                                     Male</label>
                             </div>
                             <div class="form-group form-radio">
-                                <input id="female" value="Female" name="job_type_gender" type="radio">
+                                <input id="female" value="Female" class="gender" name="job_type_gender" type="radio">
                                 <label for="female" class="inline control-label">
                                     Female</label>
                             </div>
                             <div class="form-group form-radio">
-                                <input id="both" value="Both" name="job_type_gender" type="radio">
+                                <input id="both" value="Both" class="gender" name="job_type_gender" type="radio">
                                 <label for="both" class="inline control-label">
                                     Both</label>
                             </div>
@@ -94,19 +94,19 @@ get_header();
                     </div>
                     <div class="single-job-sidebar sidebar-type">
                         <h3>job Type</h3>
-                        <div class="job-sidebar-box" id="job-type-unique">
+                        <div class="job-sidebar-box">
                             <ul>
 
                                 <li class="checkbox">
-                                    <input class="checkbox-spin" type="checkbox" id="Internship" value="Internship">
+                                    <input class="checkbox-spin job" type="checkbox" id="Internship" name="internship" value="Internship">
                                     <label for="Internship"><span></span>Internship</label>
                                 </li>
                                 <li class="checkbox">
-                                    <input class="checkbox-spin" type="checkbox" id="Part-time" value="Part-time">
+                                    <input class="checkbox-spin job" type="checkbox" id="Part-time" name="part-time" value="Part-time">
                                     <label for="Part-time"><span></span>Part Time</label>
                                 </li>
                                 <li class="checkbox">
-                                    <input class="checkbox-spin" type="checkbox" id="Full-time" value="Full-time">
+                                    <input class="checkbox-spin job" type="checkbox" id="Full-time" name="full-time" value="Full-time">
                                     <label for="Full-time"><span></span>Full Time</label>
                                 </li>
                             </ul>
@@ -129,7 +129,8 @@ get_header();
                 <div class="job-grid-right">
 
                     <div class="job-sidebar-list-single" id="search_by">
-                       <?php
+                        <?php
+                         
                          $args = array(
                            'post_type' => 'job-listing',
                            'post_status' => 'publish',
@@ -141,30 +142,33 @@ get_header();
                               $query->the_post();
                            
                               ?>
-                                       <div class="sidebar-list-single">
-                                           <div class="top-company-list">
-                                               <div class="company-list-details">
-                                                   <h3><a href="<?php the_permalink(); ?>"><?php the_title();  ?></a></h3>
-                                                   <p class="company-state"><a href="#"><i
-                                                               class="fa fa-map-marker"></i><?php echo get_field('field_6278e13325db3'); ?></a>
-                                                   </p>
-                                                   <p class="open-icon"><i
-                                                           class="fa fa-briefcase"></i><?php echo get_field('field_6278e34dc145a'); ?>
-                                                   </p>
-                                                   <p class="varify"><i
-                                                           class="fa fa-user"></i><?php echo get_field('field_6278e76a8c437'); ?></p>
-                                                   <p class="calendar"><i class="fa fa-calendar"></i>Posted
-                                                       Date:<?php echo get_field('field_6278e7278c435'); ?></p>
-                                                   <p class="calendar"><i class="fa fa-calendar"></i>Expiry Date:
-                                                       <?php echo get_field('field_6278e7528c436'); ?></p>
-                                               </div>
-                                               <div class="company-list-btn">
-                                                   <a href="<?php the_permalink(); ?>" class="jobguru-btn">View Details</a>
-                                               </div>
-                                           </div>
-                                       </div>
-                    
-                                       <?php 
+                        <div class="sidebar-list-single">
+                            <div class="top-company-list">
+                                <div class="company-list-details">
+                                    <h3><a href="<?php the_permalink(); ?>"><?php the_title();  ?></a></h3>
+                                    <p class="company-state"><a href="#"><i
+                                                class="fa fa-map-marker"></i><?php echo get_field('location'); ?></a>
+                                    </p>
+                                    <p class="open-icon"><i
+                                            class="fa fa-briefcase"></i><?php echo get_field('vacant_position'); ?>
+                                    </p>
+                                    <p class="varify"><i
+                                            class="fa fa-user"></i><?php echo get_field('required_gender'); ?></p>
+                                            <p class="varify"><i
+                                            class="fa fa-user"></i><?php echo the_field('job_type'); ?></p>
+                                           
+                                    <p class="calendar"><i class="fa fa-calendar"></i>Posted
+                                        Date:<?php echo get_field('posted_date'); ?></p>
+                                    <p class="calendar"><i class="fa fa-calendar"></i>Expiry Date:
+                                        <?php echo get_field('expiry_date'); ?></p>
+                                </div>
+                                <div class="company-list-btn">
+                                    <a href="<?php the_permalink(); ?>" class="jobguru-btn">View Details</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <?php 
                         endwhile;
                         endif;  
                        ?>
@@ -195,10 +199,9 @@ get_header();
 
 <script>
 jQuery(document).ready(function() {
-
     jQuery('.search_fun').click(function() {
         var id = $(this).attr('id');
-        var str = 'id=' + id + '&action=more_post_ajax';
+        var str = 'id=' + id +  ' &action=more_post_ajax';
 
         jQuery.ajax({
             type: "POST",
@@ -210,16 +213,16 @@ jQuery(document).ready(function() {
             data: str,
 
             success: function(data) {
-                console.log(data);
-                 if(data.length){
-                  jQuery("#search_by").html("");
-                 	jQuery("#search_by").append(data);
-                     //jQuery("#more_posts").attr("disabled",false);
+                // console.log(data);
+                if (data.length) {
+                    jQuery("#search_by").html("");
+                    jQuery("#search_by").append(data);
+                    //jQuery("#more_posts").attr("disabled",false);
 
-                 }else{
-                  jQuery("#search_by").html("");
-                 	jQuery("#search_by").append("No Post Found");
-                 } 
+                } else {
+                    jQuery("#search_by").html("");
+                    jQuery("#search_by").append("No Post Found");
+                }
             },
 
             error: function(jqXHR, textStatus, errorThrown) {
@@ -233,7 +236,96 @@ jQuery(document).ready(function() {
         });
 
         return false;
-
     });
+
+});
+
+
+jQuery(document).ready(function() {
+    jQuery('.gender').click(function() {
+        var genderId = $(this).attr('id');
+        var post_cate = 'job_category';
+        var post_type = 'job-listing';
+        var str = '$genderId=' + genderId + '&post_cate='  + post_cate + '&post_type='  + post_type + '&action=by_gender_ajax';
+
+        jQuery.ajax({
+            type: "POST",
+
+            dataType: 'html',
+
+            url: '<?php echo admin_url('/admin-ajax.php') ?>',
+
+            data: str,
+
+            success: function(data) {
+                console.log(data);
+                if (data.length) {
+                    jQuery("#search_by").html("");
+                    jQuery("#search_by").append(data);
+                    //jQuery("#more_posts").attr("disabled",false);
+
+                } else {
+                    jQuery("#search_by").html("");
+                    jQuery("#search_by").append("No Post Found");
+                }
+            },
+
+            error: function(jqXHR, textStatus, errorThrown) {
+
+                console.log(errorThrown);
+
+                jQueryloader.html(jqXHR + " :: " + textStatus + " :: " + errorThrown);
+
+            }
+
+        });
+
+        return false;
+    });
+
+});
+
+
+jQuery(document).ready(function() {
+    jQuery('.job').click(function() {
+        // console.log("hi there");
+        var jobTypeId = $(this).attr('id');
+        var str = 'jobType=' + jobTypeId +  '&action=by_job_type_ajax';
+
+        jQuery.ajax({
+            type: "POST",
+
+            dataType: 'html',
+
+            url: '<?php echo admin_url('/admin-ajax.php') ?>',
+
+            data: str,
+
+            success: function(data) {
+                console.log(data);
+                if (data.length) {
+                    jQuery("#search_by").html("");
+                    jQuery("#search_by").append(data);
+                    //jQuery("#more_posts").attr("disabled",false);
+
+                } else {
+                    jQuery("#search_by").html("");
+                    jQuery("#search_by").append("No Post Found");
+                }
+            },
+
+            error: function(jqXHR, textStatus, errorThrown) {
+
+                console.log(errorThrown);
+
+                jQueryloader.html(jqXHR + " :: " + textStatus + " :: " + errorThrown);
+
+            }
+
+        });
+
+        return false;
+    });
+
 });
 </script>

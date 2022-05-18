@@ -68,7 +68,7 @@
                      <div class="category-holder-text">
                         <h3><?php echo $cats->name; ?></h3>
                      </div>
-                     <img src="<?php echo get_field('field_62500f91c3c19'); ?>" alt="category"/>
+                     <img src="<?php echo get_field('featured_image'); ?>" alt="category"/>
                   </a>
                </div>
                <?php } ?>
@@ -147,13 +147,13 @@
                                     <div class="top-company-list">
                                        <div class="company-list-details">
                                           <h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
-                                          <p class="company-state"><i class="fa fa-map-marker"></i> 107 Wahdat Rd, Block A Muslim Town, Lahore, Punjab</p>
-                                          <p class="open-icon"><i class="fa fa-briefcase"></i>2 open position</p>
-                                          <p class="varify"><i class="fa fa-user"></i>2 Female</p>
-                                          <p class="calendar"><i class="fa fa-calendar"></i>22-3-2022</p>
+                                          <p class="company-state"><i class="fa fa-map-marker"></i> <?php echo get_field('location'); ?></p>
+                                          <p class="open-icon"><i class="fa fa-briefcase"></i><?php echo get_field('vacant_position'); ?></p>
+                                          <p class="varify"><i class="fa fa-user"></i><?php echo get_field('required_gender'); ?></p>
+                                          <p class="calendar"><i class="fa fa-calendar"></i><?php echo get_field('posted_date'); ?></p>
                                        </div>
                                        <div class="company-list-btn">
-                                          <a href="job-page.html" class="jobguru-btn">view Details</a>
+                                          <a href="<?php the_permalink(); ?>" class="jobguru-btn">view Details</a>
                                        </div>
                                     </div>
                                  </li>
@@ -166,28 +166,46 @@
                         </div>
                      </div>
                      <div class="tab-pane fade" id="pills-job" role="tabpanel" aria-labelledby="pills-job-tab">
+                        <?php 
+                        $args = array(
+                           'post_type' => 'job-listing',
+                           'post_status' => 'publish',
+                           'posts_per_page' => '3',
+                        );
+
+                        $query = new WP_Query($args);
+                              if ( $query->have_posts() ) : 
+                                 while ( $query->have_posts() ) :
+                                 $query->the_post();
+                                 
+                        ?>
                         <div class="top-company-tab">
                            <ul>
                               <li>
                                  <div class="top-company-list">
                                     <div class="company-list-details">
-                                       <h3><a href="job-page.html">jamulai - consulting & finance Co.</a></h3>
-                                       <p class="company-state"><i class="fa fa-map-marker"></i> 107 Wahdat Rd, Block A Muslim Town, Lahore, Punjab</p>
-                                       <p class="open-icon"><i class="fa fa-briefcase"></i>2 open position</p>
-                                       <p class="varify"><i class="fa fa-user"></i>2 Female</p>
-                                       <p class="calendar"><i class="fa fa-calendar"></i>22-3-2022</p>
+                                       <h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+                                       <p class="company-state"><i class="fa fa-map-marker"></i> <?php echo get_field('location'); ?></p>
+                                       <p class="open-icon"><i class="fa fa-briefcase"></i><?php echo get_field('vacant_position'); ?></p>
+                                       <p class="varify"><i class="fa fa-user"></i><?php echo get_field('required_gender'); ?></p>
+                                       <p class="calendar"><i class="fa fa-calendar"></i><?php echo get_field('posted_date'); ?></p>
                                     </div>
                                     <div class="company-list-btn">
-                                       <a href="job-page.html" class="jobguru-btn">view Details</a>
+                                       <a href="<?php the_permalink(); ?>" class="jobguru-btn">view Details</a>
                                     </div>
                                  </div>
                               </li>
                            </ul>
                         </div>
+                        <?php 
+                        endwhile;
+                        endif  ;
+                        ?>
                      </div>
                   </div>
                </div>
             </div>
+
             <div class="row">
                <div class="col-md-12">
                   <div class="load-more">
@@ -197,5 +215,6 @@
             </div>
          </div>
       </section>
+
       <!-- Job Tab Area End -->
       <?php get_footer(); ?>

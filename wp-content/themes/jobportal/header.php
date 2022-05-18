@@ -46,8 +46,8 @@
                      <div class="jobguru-responsive-menu"></div>
                      <!-- Responsive Menu Start -->
                   </div>
-                  <div class="col-lg-7">
-                     <div class="header-menu">
+                  <div class="col-lg-9">
+                     <div class="header-menu alignright">
                         <nav id="navigation">
                            <!-- to display nay menu -->
                            <?php wp_nav_menu(array('theme_location' => 'header-menu' )); ?>
@@ -66,13 +66,13 @@
                      </div>
                   </div>
                   <div class="col-lg-3">
-                     <div class="header-right-menu">
+                     <!-- <div class="header-right-menu">
                         <ul>
                            <!-- <li><a href="post-job.html" class="post-jobs">Post jobs</a></li> -->
-                           <li><a href="<?php echo site_url('register'); ?>"><i class="fa fa-user"></i>sign up</a></li>
+                           <!-- <li><a href="<?php echo site_url('register'); ?>"><i class="fa fa-user"></i>sign up</a></li>
                            <li><a href="<?php echo site_url('login'); ?>"><i class="fa fa-lock"></i>login</a></li>
-                        </ul>
-                     </div>
+                        </ul> -->
+                     </div> 
                   </div>
                </div>
             </div>

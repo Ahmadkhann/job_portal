@@ -46,14 +46,14 @@ get_header();
                   <div class="contact-left">
                      <h3>Contact information</h3>
                      <div class="contact-details">
-                        <p><i class="fa fa-map-marker"></i> 107 Wahdat Rd, Block A Muslim Town, Lahore, Punjab</p>
+                        <p><i class="fa fa-map-marker"></i><?php echo get_field('address'); ?></p>
                         <div class="single-contact-btn">
                            <h4>Email Us</h4>
-                           <a href="#" class="jobguru-btn-2">support@jobguru.com</a>
+                           <a href="#" class="jobguru-btn-2"><?php echo get_field('email'); ?></a>
                         </div>
                         <div class="single-contact-btn">
                            <h4>Call Us</h4>
-                           <a href="#" class="jobguru-btn-2">+(09)-2134-76894-9</a>
+                           <a href="#" class="jobguru-btn-2"><?php echo get_field('contact_number'); ?></a>
                         </div>
                         <div class="social-links-contact">
                            <h4>Follow Us:</h4>
