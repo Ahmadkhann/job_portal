@@ -133,7 +133,14 @@
                               $args = array(
                                  'post_type' => 'job-listing',
                                  'post_status' => 'publish',
-                                 'posts_per_page' => '6',
+                                 'posts_per_page' => '3',
+                                 // 'meta_query'	=> array(
+                                 //    array(
+                                 //       'key'	=> 'job_type',
+                                 //       'value'	=> 'Full-time',
+                                 //       'compare' 	=> 'LIKE',
+                                 //    )
+                                 //    ),
 
                               );
                               $query = new WP_Query($args);
@@ -150,6 +157,8 @@
                                           <p class="company-state"><i class="fa fa-map-marker"></i> <?php echo get_field('location'); ?></p>
                                           <p class="open-icon"><i class="fa fa-briefcase"></i><?php echo get_field('vacant_position'); ?></p>
                                           <p class="varify"><i class="fa fa-user"></i><?php echo get_field('required_gender'); ?></p>
+                                          <p class="varify"><i
+                                            class="fa fa-user"></i><?php echo the_field('job_type'); ?></p>
                                           <p class="calendar"><i class="fa fa-calendar"></i><?php echo get_field('posted_date'); ?></p>
                                        </div>
                                        <div class="company-list-btn">
@@ -188,6 +197,8 @@
                                        <p class="company-state"><i class="fa fa-map-marker"></i> <?php echo get_field('location'); ?></p>
                                        <p class="open-icon"><i class="fa fa-briefcase"></i><?php echo get_field('vacant_position'); ?></p>
                                        <p class="varify"><i class="fa fa-user"></i><?php echo get_field('required_gender'); ?></p>
+                                       <p class="varify"><i
+                                            class="fa fa-user"></i><?php echo the_field('job_type'); ?></p>
                                        <p class="calendar"><i class="fa fa-calendar"></i><?php echo get_field('posted_date'); ?></p>
                                     </div>
                                     <div class="company-list-btn">
@@ -209,7 +220,10 @@
             <div class="row">
                <div class="col-md-12">
                   <div class="load-more">
-                     <a href="all-jobs.html" class="jobguru-btn">browse more Jobs</a>
+                  <div class="posts" id='ajax-posts'>
+                     </div>
+                     <button id="load-more_post" class="jobguru-btn">browse more Jobs</button>
+                     
                   </div>
                </div>
             </div>
@@ -218,3 +232,35 @@
 
       <!-- Job Tab Area End -->
       <?php get_footer(); ?>
+
+      <script>
+         jQuery(document).ready(function(){
+			var ppp = 4;
+            // alert("The paragraph was clicked.");
+            function load_more_posts() {
+               // alert("The paragraph was clicked.");
+				var str = 'ppp=' + ppp + '&action=more_posts';
+				jQuery.ajax({
+					type: "POST",
+					dataType: "html",
+					url: '<?php echo admin_url('/admin-ajax.php') ?>',
+					data: str, 
+					success: function(data){
+					var $data = jQuery(data);
+					if($data.length){
+						jQuery("#ajax-posts").append($data);
+						jQuery("#load-more").attr("disabled",false);
+					} else{
+						jQuery("#load-more").attr("disabled",true);
+					      }
+					},
+				});
+            }  
+
+      jQuery("#load-more_post").on("click",function(){ // When btn is pressed.
+    //jQuery("#load-more").attr("disabled",true); // Disable the button, temp.
+    load_more_posts();
+});
+			
+		});
+      </script>

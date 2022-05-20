@@ -279,6 +279,9 @@ add_action('init', 'future_job_Candidate_list');
 
 function more_post_ajax() {
     $term_id = (isset($_POST["id"])) ? $_POST["id"] : '';
+    // $gender = (isset($_POST["gender"])) ? $_POST["gender"] : '';
+    
+
     $args = array(
        'post_type' => 'job-listing',
        'post_status' => 'publish',
@@ -336,19 +339,35 @@ add_action('wp_ajax_more_post_ajax', 'more_post_ajax');
 
 
 function by_gender_ajax() {
-    $gender = (isset($_POST["genderId"])) ? $_POST["genderId"] : '';
+    
+    $gender = (isset($_POST["gender"])) ? $_POST["gender"] : '';
+    $term_id = (isset($_POST["id"])) ? $_POST["id"] : '';
+    print_r($term_id);
+    print_r($gender);
+    exit('dssadf');
+    // $gender = (isset($_POST["genderId"])) ? $_POST["genderId"] : '';
+    // echo $gender;
     //echo "<pre>"; print_r($gender);
 
     $args = array(
         'post_type' => 'job-listing',
         'post_status' => 'publish',
+        'posts_per_page' => '3',
+        'tax_query' => array(
+            array(
+                'taxonomy' => 'job_category',
+                'field' => 'term_id',
+                'terms' => $term_id,
+            )
+        ),
          'meta_query'	=> array(
+            'relation'		=> 'AND',
              array(
                 'key'	=> 'required_gender',
                 'value'	=> $gender,
                 'compare' 	=> '=',
              )
-             ),
+        ),
      );
 
     $query = new WP_Query($args);
@@ -449,4 +468,61 @@ function by_job_type_ajax() {
 
 add_action('wp_ajax_nopriv_by_job_type_ajax', 'by_job_type_ajax');
 add_action('wp_ajax_by_job_type_ajax', 'by_job_type_ajax');
+
+
+function more_posts() {
+    // echo "hi there";
+    ?>
+    <div class="tab-content" id="pills-tabContent">
+     <div class="tab-pane fade show active" id="pills-companies" role="tabpanel" aria-labelledby="pills-companies-tab">
+    <div class="top-company-tab">
+    <?php 
+    
+    $ppp = (isset($_POST["ppp"])) ? $_POST["ppp"] : 3;
+    $page = (isset($_POST['pageNumber'])) ? $_POST['pageNumber'] : 0;
+
+    $args = array(
+       'post_type' => 'job-listing',
+       'post_status' => 'publish',
+       'posts_per_page' => $ppp ,
+       'paged'    => $page,
+
+    );
+    $query = new WP_Query($args);
+    if ( $query->have_posts() ) : 
+       while ( $query->have_posts() ) :
+
+       $query->the_post(); 
+       ?>
+       <ul>
+       <li>
+          <div class="top-company-list">
+             <div class="company-list-details">
+                <h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+                <p class="company-state"><i class="fa fa-map-marker"></i> <?php echo get_field('location'); ?></p>
+                <p class="open-icon"><i class="fa fa-briefcase"></i><?php echo get_field('vacant_position'); ?></p>
+                <p class="varify"><i class="fa fa-user"></i><?php echo get_field('required_gender'); ?></p>
+                <p class="varify"><i
+                                            class="fa fa-user"></i><?php echo the_field('job_type'); ?></p>
+                <p class="calendar"><i class="fa fa-calendar"></i><?php echo get_field('posted_date'); ?></p>
+             </div>
+             <div class="company-list-btn">
+                <a href="<?php the_permalink(); ?>" class="jobguru-btn">view Details</a>
+             </div>
+          </div>
+       </li>
+    </ul>
+    <?php
+       endwhile;
+       endif;
+    ?>
+    
+</div>
+    </div>
+    </div>
+<?php
+}
+
+add_action('wp_ajax_nopriv_more_posts', 'more_posts');
+add_action('wp_ajax_more_posts', 'more_posts');
 ?>

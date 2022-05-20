@@ -130,21 +130,39 @@ $job_name = get_the_ID();
                      </div>
                      <div class="single-candidate-widget">
                         <h3>Similar Jobs</h3>
+                        <?php 
+                        $args = array(
+                           'post_type' => 'job-listing',
+                           'post_status' => 'publish',
+                           'posts_per_page' => '3',
+                           'category__in' => wp_get_post_categories(get_the_ID()),
+                           'post__not_in' => array(get_the_ID()),
+                        );
+                        
+                        $query = new WP_Query($args);
+                        if($query->have_posts()):
+                           while($query->have_posts()):
+                              $query->the_post();
+                        ?>
                         <div class="sidebar-list-single">
                            <div class="top-company-list">
                               <div class="company-list-details">
-                                 <h3><a href="#">Regional Sales Manager</a></h3>
-                                 <p class="company-state"><i class="fa fa-map-marker"></i> C107 Wahdat Rd, Block A Muslim Town, Lahore</p>
-                                 <p class="open-icon"><i class="fa fa-briefcase"></i>2 open position</p>
-                                 <p class="varify"><i class="fa fa-user"></i>2 Female</p>
-                                 <p class="calendar"><i class="fa fa-calendar"></i>22-3-2022</p>
+                                 <h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+                                 <p class="company-state"><i class="fa fa-map-marker"></i><?php echo get_field('location'); ?></p>
+                                 <p class="open-icon"><i class="fa fa-briefcase"></i><?php echo get_field('vacant_position'); ?></p>
+                                 <p class="varify"><i class="fa fa-user"></i><?php echo the_field('required_gender'); ?></p>
+                                 <p class="calendar"><i class="fa fa-calendar"></i><?php echo get_field('posted_date'); ?></p>
                               </div>
                               <div class="company-list-btn">
-                                 <a href="#" class="jobguru-btn">View Details</a>
+                                 <a href="<?php the_permalink(); ?>" class="jobguru-btn">View Details</a>
                               </div>
                            </div>
                         </div>
-                        <div class="sidebar-list-single">
+                        <?php 
+                        endwhile;
+                     endif;
+                        ?>
+                        <!-- <div class="sidebar-list-single">
                            <div class="top-company-list">
                               <div class="company-list-details">
                                  <h3><a href="#">Asst. Teacher</a></h3>
@@ -157,7 +175,7 @@ $job_name = get_the_ID();
                                  <a href="#" class="jobguru-btn">View Details</a>
                               </div>
                            </div>
-                        </div>
+                        </div> -->
                      </div>
                   </div>
                </div>
@@ -174,15 +192,15 @@ $job_name = get_the_ID();
                         <ul class="job-overview">
                            <li>
                               <h4><i class="fa fa-map-marker"></i> Location</h4>
-                              <p>London, United Kingdom</p>
+                              <p><?php echo get_field('location'); ?></p>
                            </li>
                            <li>
                               <h4><i class="fa fa-thumb-tack"></i> Job Type</h4>
-                              <p>Full Time</p>
+                              <p><?php echo the_field('job_type'); ?></p>
                            </li>
                            <li>
                               <h4><i class="fa fa-clock-o"></i> Date Posted</h4>
-                              <p>2 days ago</p>
+                              <p><?php echo get_field('posted_date'); ?></p>
                            </li>
                         </ul>
                      </div>

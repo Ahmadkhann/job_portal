@@ -1365,6 +1365,7 @@
 		-ms-flex: 1;
 		flex: 1;
 		padding-top: 3px;
+		text-align: left;
 	}
 
 	.top-company-list .company-list-details>h3 {

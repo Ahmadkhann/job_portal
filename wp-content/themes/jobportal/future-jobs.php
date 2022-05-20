@@ -850,7 +850,7 @@
 	<?php get_footer(); ?>
 
 		<!-- Footer Area End -->
-		<script type="text/javascript">
+		<script>
 		$(".high-school-check").click(function() {
 			if($(this).is(":checked")) {
 				$(".high-school-subjects").slideDown();
@@ -858,8 +858,7 @@
 				$(".high-school-subjects").slideUp();
 			}
 		});
-		</script>
-		<script type="text/javascript">
+		
 		$(".college-subjects-check").click(function() {
 			if($(this).is(":checked")) {
 				$(".college-subjects").slideDown();
@@ -867,8 +866,7 @@
 				$(".college-subjects").slideUp();
 			}
 		});
-		</script>
-		<script type="text/javascript">
+	
 		$(document).ready(function() {
 			$('.jobTypeList input[type="radio"]').click(function() {
 				var inputValue = $(this).attr("value");
